@@ -1,0 +1,18 @@
+name: build-ipa
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build unsigned ipa
+        run: |
+          xcodebuild -project Studia.xcodeproj -target Studia -sdk iphoneos -configuration Release \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build
+          mkdir -p out/Payload
+          cp -R build/Release-iphoneos/Studia.app out/Payload/
+          cd out && zip -qry Studia.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Studia-ipa
+          path: out/Studia.ipa
