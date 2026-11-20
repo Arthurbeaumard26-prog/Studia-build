@@ -103,7 +103,7 @@ struct WeekHomeworkPage: View {
     private var groupedByDay: [(day: Date?, list: [Homework])] {
         let dated = Dictionary(grouping: inWeek.filter { $0.due != nil }) { DateFR.calendar.startOfDay(for: $0.due!) }
         let undated = inWeek.filter { $0.due == nil }
-        var groups = dated.sorted { $0.key < $1.key }.map { (day: $0.key, list: $0.value) }
+        var groups: [(day: Date?, list: [Homework])] = dated.sorted { $0.key < $1.key }.map { (day: Optional($0.key), list: $0.value) }
         if !undated.isEmpty {
             groups.append((day: nil, list: undated))
         }

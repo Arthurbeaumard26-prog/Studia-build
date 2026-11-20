@@ -61,7 +61,9 @@ struct PronoteWebView: UIViewRepresentable {
     func updateUIView(_ uiView: WKWebView, context: Context) {}
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(onSessionReady: onSessionReady)
+        let c = Coordinator()
+        c.onSessionReady = onSessionReady
+        return c
     }
 
     final class Coordinator: NSObject, WKNavigationDelegate {
